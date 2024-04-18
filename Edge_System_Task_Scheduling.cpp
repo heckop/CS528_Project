@@ -1,5 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
+#include <fstream>
+
 
 int m,t,s;
 vector<vector<int> > bat_gen(1e5,vector<int>(1000));
@@ -14,7 +16,43 @@ int root_cube(int num){
     return st-1;
 }
 
+void writeCSV(const std::string& filename, const std::vector<std::vector<int> > data) {
+    // Open the file for writing (create if not exists)
+    std::ofstream file(filename, std::ios::out);
 
+    // Check if the file opened successfully
+    if (!file.is_open()) {
+        std::cerr << "Error opening file: " << filename << std::endl;
+        return;
+    }
+    for(int i=0;i<t;i++){
+        file<<i+1;
+        if(i<t-1){
+            file<<",";
+        }
+        else{
+            file<<'\n';
+        }
+    }
+    // Iterate over each row of data
+    for (int i=0;i<m;i++) {
+        // Iterate over each element in the row
+        for (int j = 0; j < t; j++) {
+            // Write the element to the file
+            file << data[i][j];
+
+            // Add a comma after each element, except the last one
+            if (j < t - 1) {
+                file << ",";
+            }
+        }
+        // Add a new line after each row
+        file << std::endl;
+    }
+
+    // Close the file
+    file.close();
+}
 
 void task_scheduler(){
     cout<< "********* Task Scheduling Begins *********\n";
@@ -105,9 +143,9 @@ void task_scheduler(){
 
 void generate_random_test_cases(int n){
     for(int i=0;i<n;i++){
-        m= rand()%100 + 1;
-        t=rand()%100+1;
-        s=rand()%200 + 50;
+        m= rand()%20 + 1;
+        t=rand()%24+1;
+        s=rand()%20 +5;
         for(int j=0;j<m;j++){
             for(int k=0;k<t;k++){
                 bat_gen[j][k]=rand()%s;
@@ -115,6 +153,8 @@ void generate_random_test_cases(int n){
             }
         }
         task_scheduler();
+        string filename="data"+to_string(i+1)+".csv";
+        writeCSV(filename,task_arrv);
     }
 }
 
@@ -135,6 +175,8 @@ signed main(){
             }
         }
         task_scheduler();
+        string filename="data.csv";
+        writeCSV(filename,task_arrv);
     }
     else if(choice == 1){
         int num_count;
