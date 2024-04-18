@@ -14,6 +14,8 @@ int root_cube(int num){
     return st-1;
 }
 
+
+
 void task_scheduler(){
     cout<< "********* Task Scheduling Begins *********\n";
     int num_task=1;
@@ -94,11 +96,26 @@ void task_scheduler(){
     int total_tasks=0;
     for(int i=0;i<m;i++){
         for(int j=0;j<t;j++){
-            cout<<"Server "<<i<<" on "<<j<<" slot consumed "<<assigned_task[i][j]<<" tasks\n";
+            cout<<"Server "<<i+1<<" on "<<"slot "<<j+1<<" executed "<<assigned_task[i][j]<<" tasks\n";
             total_tasks+=assigned_task[i][j];
         }
     }
-    cout<<"Total executed tasks is "<<total_tasks<<'\n';
+    cout<<"Total number of executed tasks is "<<total_tasks<<'\n';
+}
+
+void generate_random_test_cases(int n){
+    for(int i=0;i<n;i++){
+        m= rand()%100 + 1;
+        t=rand()%100+1;
+        s=rand()%200 + 50;
+        for(int j=0;j<m;j++){
+            for(int k=0;k<t;k++){
+                bat_gen[j][k]=rand()%s;
+                task_arrv[j][k]=rand()%7;
+            }
+        }
+        task_scheduler();
+    }
 }
 
 signed main(){
@@ -106,14 +123,28 @@ signed main(){
     freopen("input.txt", "r" , stdin);
     freopen("output.txt", "w", stdout);
     #endif
-    cin>>m>>t>>s;
-    for(int i=0;i<m;i++){
-        for(int j=0;j<t;j++){
-            cin>>bat_gen[i][j];
-            cin>>task_arrv[i][j];
+    int choice;
+    cout<<"Enter 1 to generate random test cases or enter 2 for manual testing\n";
+    cin>>choice;
+    if(choice == 2){
+        cin>>m>>t>>s;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<t;j++){
+                cin>>bat_gen[i][j];
+                cin>>task_arrv[i][j];
+            }
         }
+        task_scheduler();
     }
-    task_scheduler();
+    else if(choice == 1){
+        int num_count;
+        cout<<"Enter the number of test cases to generate\n";
+        cin>>num_count;
+        generate_random_test_cases(num_count);
+    }
+    else{
+        cout<<"Wrong Command entered, Exiting ...\n";
+    }
     #ifdef LOCAL
     clock_t tStart = clock();
     cerr<<fixed<<setprecision(10)<<"\nTime Taken: "<<(double)(clock()- tStart)/CLOCKS_PER_SEC<<endl;
