@@ -7,6 +7,7 @@ int m,t,s;
 vector<vector<int> > bat_gen(1e5,vector<int>(1000));
 vector<vector<int> > task_arrv(1e5,vector<int>(1000));
 vector<vector<int> > assigned_task(1e5,vector<int>(1000,0));
+vector<int> battery_total(1e5);
 
 int root_cube(int num){
     int st=1;
@@ -17,6 +18,12 @@ int root_cube(int num){
 }
 
 void writeCSV(const std::string& filename, const std::vector<std::vector<int> > data) {
+    vector<float> bat_rem(m,0);
+    for(int i=0;i<m;i++){
+        for(int j=0;j<t;j++){
+            bat_rem[i]+=bat_gen[i][j];
+        }
+    }
     // Open the file for writing (create if not exists)
     std::ofstream file(filename, std::ios::out);
 
@@ -52,12 +59,52 @@ void writeCSV(const std::string& filename, const std::vector<std::vector<int> > 
 
     // Close the file
     file.close();
+
+    std::ofstream file1(filename, std::ios::out);
+
+    // Check if the file opened successfully
+    if (!file1.is_open()) {
+        std::cerr << "Error opening file: " << filename<<"battery" << std::endl;
+        return;
+    }
+    for(int i=0;i<t;i++){
+        file<<i+1;
+        if(i<t-1){
+            file<<",";
+        }
+        else{
+            file<<'\n';
+        }
+    }
+    // Iterate over each row of data
+    for (int i=0;i<m;i++) {
+        // Iterate over each element in the row
+        for (int j = 0; j < t; j++) {
+            // Write the element to the file
+            file << data[i][j];
+
+            // Add a comma after each element, except the last one
+            if (j < t - 1) {
+                file << ",";
+            }
+        }
+        // Add a new line after each row
+        file << std::endl;
+    }
+
+    // Close the file
+    file.close();
 }
 
 void task_scheduler(){
     cout<< "********* Task Scheduling Begins *********\n";
     int num_task=1;
-    
+    for(int i=0;i<m;i++){
+        battery_total[i]=0;
+        for(int j=0;j<t;j++){
+            battery_total[i]+=bat_gen[i][j];
+        }
+    }
     while(1){
         bool unchanged = 0;
         for(int i=0;i<t;i++){
@@ -144,12 +191,14 @@ void generate_random_test_cases(int n){
         for(int j=0;j<m;j++){
             for(int k=0;k<t;k++){
                 bat_gen[j][k]=rand()%s;
+                cout<<"Server "<<j<<" generate "<<bat_gen[j][k]<<" at "<<k<<" slot\n";
                 task_arrv[j][k]=rand()%7;
+                cout<<"Server "<<j<<" tasks "<<task_arrv[j][k]<<" arrive at "<<k<<" slot\n";
             }
         }
         task_scheduler();
         string filename="data"+to_string(i+1)+".csv";
-        writeCSV(filename,task_arrv);
+        writeCSV(filename,assigned_task);
     }
 }
 
@@ -171,7 +220,7 @@ signed main(){
         }
         task_scheduler();
         string filename="data.csv";
-        writeCSV(filename,task_arrv);
+        writeCSV(filename,assigned_task);
     }
     else if(choice == 1){
         int num_count;
