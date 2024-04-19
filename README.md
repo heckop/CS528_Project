@@ -1,4 +1,9 @@
 # CS528 Project
+
+# <b> Team members : Ashish Bharti , Pratyush R. , B. Vijesh R. Bhat
+
+## Problem Statement
+
 Algorithmic implementation of Task Scheduling in Edge Server Systems with limited Solar Energy and Infinite Batteries
 
 Given the M edge servers each equipped with a solar panel of capacity S and a battery with infinite capacity.
@@ -28,4 +33,55 @@ The task can be migrated to another edge server without any cost.
 Battery power cannot be transferred from one edge server to another server.
 
 Design an efficient approach to maximize the total number of task executions for the entire day by all the edge servers.
+
+# Task Scheduling Algorithm
+
+---
+
+## Platform: Any linux based machine
+
+## Compiler: GCC >= 9.0.0 (GNU Compiler Collection)
+
+---
+
+## How to Compile and Run the Code
+
+1. **Clone the Repository:**
+   
+   git clone https://github.com/heckop/CS528_Project.git
+
+2. Navigate to CS528_Project directory
+
+3. Run the command "g++ Edge_System_task_Scheduling.cpp"
+
+4. Run the command ./a.out
+
+
+## <b>Manual Testing
+
+    If you choose to perform manual testing:
+        Enter 2 when prompted to generate random test cases or manual testing.
+        Provide input values as prompted (number of servers, number of slots, power range).
+        Enter the battery generation and task arrival values for each server and slot.
+        The program will execute the task scheduling algorithm and display the results.
+
+## <b>Generating Random Test Cases
+
+    If you choose to generate random test cases:
+        Enter 1 when prompted to generate random test cases or manual testing.
+        Enter the number of test cases you wish to generate.
+        The program will generate random input values, execute the task scheduling algorithm for each test case, and save the input data in CSV files.
+
+## <b> To perform visualisation of the result
+    
+    The CSV files will be generated automatically for both random test case and manual test case
+    The user needs to change the input of the jupyter notebook where the csv file is being read.
+    After that, just run all the cells and the analysis of the data will be shown.
+    Bar graphs and heatmaps are used for visualisation
+
+## <b> Additional Notes
+
+    The code utilizes C++ and standard libraries.
+    Make sure you have GCC installed on your Linux system to compile the code.
+    The code may be compatible with other Linux distributions and compilers.
 

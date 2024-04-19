@@ -68,11 +68,6 @@ void task_scheduler(){
             //cout<<task_pool<<'\n';
             vector<pair<int,int> > bat_cur_slot;
             vector<int > bat_cur_sum(m);
-            for(int j=0;j<m;j++){
-            for(int ik=i;ik>=0;ik--){
-                
-            }
-            }
             vector<pair<int,int> > bat_pref(m);
             for(int j=0;j<m;j++){
                 int sum=0;
